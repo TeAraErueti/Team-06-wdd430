@@ -1,0 +1,16 @@
+.heroimage {
+  display: block;
+  background-color: darkgreen;
+  width: 100%;
+  height: auto;
+}
+
+.about {
+  background: linear-gradient(transparent, goldenrod 30%, goldenrod);
+  padding: 1rem;
+  margin-top: -10rem;
+
+  h1 {
+    text-align: center;
+  }
+}
