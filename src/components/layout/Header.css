@@ -1,6 +1,6 @@
 /* Header.css */
 :root {
-  /* Colors - PLACEHOLDERS (change these when brand colors decided) */
+  /* Colors */
   --header-bg: var(--bg-main);
   --header-text: var(--fg-light);
   --header-text-hover: var(--fg-main);
@@ -10,7 +10,7 @@
   --header-btn-text: var(--bg-main);
   --header-btn-hover-bg: var(--fg-main);
   
-  /* Fonts - PLACEHOLDERS */
+  /* Fonts */
   --header-font-size: 16px;
   
   /* Spacing */

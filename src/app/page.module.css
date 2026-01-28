@@ -1,23 +1,49 @@
 .heroimage {
-  display: block;
-  background-color: darkgreen; /* Placeholder to make the image area visible before one is found. */
-  width: 100%;
-  height: auto;
+  position: relative;
+
+  img {
+    background-color: burlywood; /* Placeholder to make the image area visible before one is found. */
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1.5rem;
+      background: linear-gradient(to bottom, transparent, var(--brand-gold));
+    }
+  }
+
+  div {
+    position: absolute;
+    width: 100%;
+
+    h1 {
+      width: fit-content;
+      margin: 0 auto;
+      background-color: var(--brand-light-clay);
+      padding: 1rem;
+      position: relative;
+      top: -3rem;
+      box-shadow: 2px 3px 0.5rem rgba(0, 0, 0, 0.25);
+    }
+  }
 }
 
 .about {
-  background: linear-gradient(transparent, var(--brand-gold) 30%, var(--brand-gold));
-  padding: 1rem;
-  margin-top: -10rem;
-
-  h1 {
-    text-align: center;
-  }
+  background: var(--brand-gold);
+  padding: 1.5rem 1rem 1rem;
 }
 
 /* Featured Products + Artisans shared layout */
 .section {
   width: 100%;
+  box-sizing: border-box;
   padding: 3rem 1rem;
 }
 
@@ -165,7 +191,7 @@
 
 .cardDesc {
   margin-top: 0.5rem;
-  opacity: 0.7;
+  opacity: 0.8;
   font-size: 0.9rem;
   line-height: 1.3;
 }

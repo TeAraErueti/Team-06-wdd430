@@ -1,6 +1,6 @@
 /* Footer.css */
 :root {
-  /* Colors - PLACEHOLDERS (change these when brand colors decided) */
+  /* Colors */
   --footer-bg: var(--fg-main);
   --footer-text: var(--bg-light);
   --footer-text-hover: var(--bg-main);
@@ -9,7 +9,7 @@
   --footer-social-bg: var(--bd-dark);
   --footer-social-hover-bg: var(--bd-middle);
   
-  /* Fonts - PLACEHOLDERS */
+  /* Fonts */
   --footer-font-size: 14px;
 }
 
@@ -144,7 +144,9 @@
 }
 
 .footer__legal-separator {
-  color: var(--footer-border);
+  border: solid 1px var(--footer-border);
+  height: 1rem;
+  width: 0;
 }
 
 /* ==================== TABLET STYLES ==================== */

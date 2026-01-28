@@ -6,9 +6,11 @@
   --bd-faint: #ecdcc5;
   --bd-middle: #7f6548;
   --bd-dark: #3f311c;
-  --brand-clay: #864313;
   --brand-gold: #e1bc37;
+  --brand-clay: #864313;
+  --brand-light-clay: #be6f37;
   --brand-chocolate: #5a321e;
+  --brand-burnt: #c93c0d;
 }
 
 html, body {
@@ -17,4 +19,9 @@ html, body {
   font-family: Helvetica, Arial, sans-serif;
   background-color: var(--bg-main);
   color: var(--fg-main);
+}
+
+input, button, select, textarea {
+  color: var(--fg-main);
+  background: var(--bg-main);
 }
