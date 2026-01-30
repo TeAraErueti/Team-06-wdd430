@@ -5,8 +5,8 @@ export default function HeroImage() {
     <div className={heroimage}>
       <img
         src="/images/hero-image.png"
-        width="5120"
-        height="3416"
+        width="9"
+        height="4"
       />
     </div>
     <div>
