@@ -1,10 +1,11 @@
 // src/library/queries.ts
 import { supabase } from "./supabase";
-import type { Product } from "./types";
+import type { Product, Artisan } from "@/library/types";
 
 /**
  * Get random featured products
  */
+
 export async function getRandomFeaturedProducts(limit: number): Promise<Product[]> {
   const { data, error } = await supabase
     .from("products")
@@ -107,8 +108,33 @@ export async function getProductById(id: string): Promise<Product | null> {
 /**
  * Get random artisans
  */
-export async function getRandomArtisans(limit: number) {
-  const artisans = ['artisans from db1', 'artisans from db2', 'artisans from db3']; // Placeholder for actual DB call
+export async function getRandomArtisans(
+  limit: number
+): Promise<Artisan[]> {
+  const artisans: Artisan[] = [
+    {
+      id: 'art_1',
+      name: 'Jane Potter',
+      bio: 'Ceramic artist inspired by natural forms.',
+      location: 'Asheville, NC',
+      profile_image_url: 'https://example.com/images/jane.jpg',
+    },
+    {
+      id: 'art_2',
+      name: 'Liam Weaver',
+      bio: 'Textile maker specializing in traditional weaving.',
+      location: 'Portland, OR',
+      profile_image_url: 'https://example.com/images/liam.jpg',
+    },
+    {
+      id: 'art_3',
+      name: 'Sofia Wood',
+      bio: 'Woodworker focused on sustainable materials.',
+      location: 'Boulder, CO',
+      profile_image_url: 'https://example.com/images/sofia.jpg',
+    },
+  ];
 
-  return artisans;
+  return artisans.slice(0, limit);
 }
+

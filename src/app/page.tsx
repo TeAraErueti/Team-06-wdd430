@@ -18,6 +18,7 @@ export default async function Home() {
     console.warn("DB not ready, using mock data.");
   }
 
+
   return (
     <>
       <HeroImage />
@@ -28,3 +29,4 @@ export default async function Home() {
     </>
   );
 }
+
