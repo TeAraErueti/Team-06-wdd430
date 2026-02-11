@@ -55,3 +55,10 @@ export async function createAccount(
 export async function logout() {
 	await signOut({ redirectTo: '/' });
 }
+
+export async function requestArtisanStatus(
+	prevState: void | undefined,
+	formData: FormData,
+) {
+	
+}
