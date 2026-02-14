@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+
   images: {
     remotePatterns: [
       {
@@ -30,8 +30,22 @@ const nextConfig: NextConfig = {
         hostname: 'as1.ftcdn.net',
         pathname: '/**',
       },
+      {
+        protocol: "https",
+        hostname: "assets.example.com",
+      },
+      {
+        protocol: "https",
+        hostname: "example.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+
+      },
     ],
-  }
+  },
 };
 
 export default nextConfig;
+
