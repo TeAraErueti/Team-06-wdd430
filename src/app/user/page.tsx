@@ -15,9 +15,6 @@ export default async function UserPage() {
 
 	return (
 		< >
-			<h1>{user.name}'s Profile</h1>
-			<p>Welcome, {user.name}.</p>
-
 			<Suspense>
 				<UserInfoForm user={user} />
 
