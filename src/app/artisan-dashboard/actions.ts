@@ -2,6 +2,7 @@
 
 import { sql } from '@/library/db';
 import { revalidatePath } from 'next/cache';
+import getUser from '@/app/lib/getUser';
 
 type ArtisanProfile = {
   id: string;
@@ -35,13 +36,9 @@ export async function getArtisanByEmail(email: string): Promise<ArtisanProfile |
 }
 
 export async function deleteProduct(productId: string) {
-  // For demo purposes, using first artisan
-  // In production, you'd get artisan from session/auth
-  const artisans = await sql<ArtisanProfile[]>`
-    SELECT id, name FROM artisans LIMIT 1
-  `;
-  
-  const artisan = artisans[0];
+  const user = await getUser();
+  if(!user) return { success: false, error: 'Failed to fetch user' };
+  const artisan = await getArtisanByEmail(user.email);
   
   if (!artisan) {
     throw new Error('Artisan not found');
@@ -63,13 +60,9 @@ export async function deleteProduct(productId: string) {
 }
 
 export async function addProduct(formData: FormData) {
-  // For demo purposes, using first artisan
-  // In production, you'd get artisan from session/auth
-  const artisans = await sql<ArtisanProfile[]>`
-    SELECT id, name FROM artisans LIMIT 1
-  `;
-  
-  const artisan = artisans[0];
+  const user = await getUser();
+  if(!user) return { success: false, error: 'Failed to fetch user' };
+  const artisan = await getArtisanByEmail(user.email);
   
   if (!artisan) {
     throw new Error('Artisan not found');

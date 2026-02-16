@@ -3,6 +3,7 @@ import ProductList from './ProductList';
 import AddProductForm from './AddProductForm';
 import styles from './products.module.css';
 import { getArtisanByEmail } from '../actions';
+import getUser from '@/app/lib/getUser';
 
 type Product = {
   id: string;
@@ -29,7 +30,7 @@ async function getArtisanProducts(artisanId: string): Promise<Product[]> {
 
 export default async function ProductsPage() {
   const user = await getUser();
-  const artisan = await getArtisanByEmail();
+  const artisan = user ? await getArtisanByEmail(user.email) : null;
 
   if (!artisan) {
     return (

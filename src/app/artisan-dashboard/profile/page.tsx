@@ -5,7 +5,7 @@ import getUser from '@/app/lib/getUser';
 
 export default async function ProfilePage() {
   const user = await getUser();
-  const artisan = await getArtisanByEmail();
+  const artisan = user ? await getArtisanByEmail(user.email) : null;
 
   if (!artisan) {
     return (
