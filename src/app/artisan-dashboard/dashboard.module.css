@@ -13,8 +13,7 @@
   position: fixed;
   height: 100vh;
   left: 0;
-  top: 0;
-  z-index: 1100;
+  top: 70px;
 }
 
 .sidebarHeader {
