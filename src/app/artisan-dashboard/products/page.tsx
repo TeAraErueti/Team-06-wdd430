@@ -2,6 +2,8 @@ import { sql } from '@/library/db';
 import ProductList from './ProductList';
 import AddProductForm from './AddProductForm';
 import styles from './products.module.css';
+import { getArtisanByEmail } from '../actions';
+import getUser from '@/app/lib/getUser';
 
 type Product = {
   id: string;
@@ -12,38 +14,6 @@ type Product = {
   artisan_id: string;
   artisan_name: string;
 };
-
-type ArtisanProfile = {
-  id: string;
-  name: string;
-};
-
-async function getArtisanByEmail(email: string): Promise<ArtisanProfile | null> {
-  try {
-    const user = await sql<{ id: number; name: string }[]>`
-      SELECT id, name FROM users WHERE email = ${email}
-    `;
-    
-    if (!user || user.length === 0) return null;
-    
-    // First try to match by user_id (proper relationship)
-    let artisan = await sql<ArtisanProfile[]>`
-      SELECT id, name FROM artisans WHERE user_id = ${user[0].id}
-    `;
-    
-    // Fallback to name matching (temporary until all artisans are linked)
-    if (!artisan || artisan.length === 0) {
-      artisan = await sql<ArtisanProfile[]>`
-        SELECT id, name FROM artisans WHERE name = ${user[0].name}
-      `;
-    }
-    
-    return artisan[0] || null;
-  } catch (error) {
-    console.error('Failed to fetch artisan:', error);
-    return null;
-  }
-}
 
 async function getArtisanProducts(artisanId: string): Promise<Product[]> {
   try {
@@ -59,13 +29,8 @@ async function getArtisanProducts(artisanId: string): Promise<Product[]> {
 }
 
 export default async function ProductsPage() {
-  // For demo purposes, showing first artisan
-  // In production, you'd identify the artisan by session/auth
-  const artisans = await sql<ArtisanProfile[]>`
-    SELECT id, name FROM artisans LIMIT 1
-  `;
-  
-  const artisan = artisans[0];
+  const user = await getUser();
+  const artisan = user ? await getArtisanByEmail(user.email) : null;
 
   if (!artisan) {
     return (

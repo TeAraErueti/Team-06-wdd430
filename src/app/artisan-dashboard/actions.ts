@@ -2,31 +2,31 @@
 
 import { sql } from '@/library/db';
 import { revalidatePath } from 'next/cache';
+import getUser from '@/app/lib/getUser';
 
 type ArtisanProfile = {
   id: string;
   name: string;
+  bio: string;
+  location: string;
+  profile_image_url: string;
+  slug?: string;
+  short_description?: string;
 };
 
-async function getArtisanByEmail(email: string): Promise<ArtisanProfile | null> {
+export async function getArtisanByEmail(email: string): Promise<ArtisanProfile | null> {
   try {
-    const user = await sql<{ id: number; name: string }[]>`
-      SELECT id, name FROM users WHERE email = ${email}
+    const artisan = await sql<ArtisanProfile[]>`
+      SELECT 
+        artisans.id,
+        artisans.name,
+        bio,
+        location,
+        profile_image_url,
+        slug,
+        short_description
+      FROM artisans JOIN users ON users.artisan_id = artisans.id WHERE email = ${email}
     `;
-    
-    if (!user || user.length === 0) return null;
-    
-    // First try to match by user_id (proper relationship)
-    let artisan = await sql<ArtisanProfile[]>`
-      SELECT id, name FROM artisans WHERE user_id = ${user[0].id}
-    `;
-    
-    // Fallback to name matching (temporary until all artisans are linked)
-    if (!artisan || artisan.length === 0) {
-      artisan = await sql<ArtisanProfile[]>`
-        SELECT id, name FROM artisans WHERE name = ${user[0].name}
-      `;
-    }
     
     return artisan[0] || null;
   } catch (error) {
@@ -36,13 +36,9 @@ async function getArtisanByEmail(email: string): Promise<ArtisanProfile | null> 
 }
 
 export async function deleteProduct(productId: string) {
-  // For demo purposes, using first artisan
-  // In production, you'd get artisan from session/auth
-  const artisans = await sql<ArtisanProfile[]>`
-    SELECT id, name FROM artisans LIMIT 1
-  `;
-  
-  const artisan = artisans[0];
+  const user = await getUser();
+  if(!user) return { success: false, error: 'Failed to fetch user' };
+  const artisan = await getArtisanByEmail(user.email);
   
   if (!artisan) {
     throw new Error('Artisan not found');
@@ -64,13 +60,9 @@ export async function deleteProduct(productId: string) {
 }
 
 export async function addProduct(formData: FormData) {
-  // For demo purposes, using first artisan
-  // In production, you'd get artisan from session/auth
-  const artisans = await sql<ArtisanProfile[]>`
-    SELECT id, name FROM artisans LIMIT 1
-  `;
-  
-  const artisan = artisans[0];
+  const user = await getUser();
+  if(!user) return { success: false, error: 'Failed to fetch user' };
+  const artisan = await getArtisanByEmail(user.email);
   
   if (!artisan) {
     throw new Error('Artisan not found');

@@ -1,51 +1,11 @@
 import { sql } from '@/library/db';
 import styles from './profile.module.css';
-
-type ArtisanProfile = {
-  id: string;
-  name: string;
-  bio: string;
-  location: string;
-  profile_image_url: string;
-  slug?: string;
-  short_description?: string;
-};
-
-async function getArtisanByEmail(email: string): Promise<ArtisanProfile | null> {
-  try {
-    const user = await sql<{ id: number; name: string }[]>`
-      SELECT id, name FROM users WHERE email = ${email}
-    `;
-    
-    if (!user || user.length === 0) return null;
-    
-    // First try to match by user_id (proper relationship)
-    let artisan = await sql<ArtisanProfile[]>`
-      SELECT * FROM artisans WHERE user_id = ${user[0].id}
-    `;
-    
-    // Fallback to name matching (temporary until all artisans are linked)
-    if (!artisan || artisan.length === 0) {
-      artisan = await sql<ArtisanProfile[]>`
-        SELECT * FROM artisans WHERE name = ${user[0].name}
-      `;
-    }
-    
-    return artisan[0] || null;
-  } catch (error) {
-    console.error('Failed to fetch artisan:', error);
-    return null;
-  }
-}
+import { getArtisanByEmail } from '../actions';
+import getUser from '@/app/lib/getUser';
 
 export default async function ProfilePage() {
-  // For demo purposes, showing first artisan
-  // In production, you'd identify the artisan by session/auth
-  const artisans = await sql<ArtisanProfile[]>`
-    SELECT * FROM artisans LIMIT 1
-  `;
-  
-  const artisan = artisans[0];
+  const user = await getUser();
+  const artisan = user ? await getArtisanByEmail(user.email) : null;
 
   if (!artisan) {
     return (

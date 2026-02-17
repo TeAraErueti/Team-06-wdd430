@@ -84,7 +84,7 @@ export default function FeaturedProducts({ products }: { products: Product[] }) 
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          window.location.href = `/artisans/${p.artisan_name!.replace(/\s+/g, "-").toLowerCase()}`;
+                          window.location.href = `/artisans/${p.artisan_slug}`;
                         }}
                       >
                         {p.artisan_name}
